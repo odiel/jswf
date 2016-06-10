@@ -16,8 +16,32 @@ public class Framework extends AbstractHandler {
 
     protected Server server;
 
+    protected String hostname = "localhost";
+
+    protected int port = 8888;
+
     public Framework(){
         server = new Server();
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public Framework setHostname(String hostname) {
+        this.hostname = hostname;
+
+        return this;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public Framework setPort(int port) {
+        this.port = port;
+
+        return this;
     }
 
     public Framework addComponent(AbstractComponent component) {
@@ -34,8 +58,8 @@ public class Framework extends AbstractHandler {
 
     public void run() throws Exception {
         ServerConnector http = new ServerConnector(this.server);
-        http.setHost("localhost");
-        http.setPort(8888);
+        http.setHost(hostname);
+        http.setPort(port);
         http.setIdleTimeout(30000);
 
         server.addConnector(http);
@@ -50,7 +74,7 @@ public class Framework extends AbstractHandler {
     }
 
     public void handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Environment environment = new Environment(request, response);
+        Environment environment = new Environment(new Request(request), new Response(response));
 
         if (firstComponent != null) {
             firstComponent.invoke(environment);

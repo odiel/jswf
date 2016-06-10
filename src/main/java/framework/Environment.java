@@ -1,32 +1,29 @@
 package framework;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 public class Environment {
 
-    HttpServletRequest request;
+    Request request;
 
-    HttpServletResponse response;
+    Response response;
 
-    public Environment(HttpServletRequest request, HttpServletResponse response) {
+    public Environment(Request request, Response response) {
         this.request = request;
         this.response = response;
     }
 
-    public void setRequest(HttpServletRequest request) {
+    public void setRequest(Request request) {
         this.request = request;
     }
 
-    public void setResponse(HttpServletResponse response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 
-    public HttpServletRequest getRequest() {
+    public Request getRequest() {
         return request;
     }
 
-    public HttpServletResponse getResponse() {
+    public Response getResponse() {
         return response;
     }
 }
