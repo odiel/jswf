@@ -6,17 +6,18 @@ public class Environment {
 
     Response response;
 
-    public Environment(Request request, Response response) {
+    public Environment() {}
+
+    public Environment setRequest(Request request) {
         this.request = request;
-        this.response = response;
+
+        return this;
     }
 
-    public void setRequest(Request request) {
-        this.request = request;
-    }
-
-    public void setResponse(Response response) {
+    public Environment setResponse(Response response) {
         this.response = response;
+
+        return this;
     }
 
     public Request getRequest() {

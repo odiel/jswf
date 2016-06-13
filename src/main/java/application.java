@@ -1,4 +1,5 @@
 import framework.Framework;
+import framework.HttpRunner;
 import framework.components.FirstComponent;
 import framework.components.LogRequestComponent;
 import framework.components.HttpRouteHandlerComponent;
@@ -13,8 +14,11 @@ public class application {
         //routeHandler.addGet("pepe", "/pepe/{whatever}", new IndexHandler());
         routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
 
+        HttpRunner runner = new HttpRunner();
+
         Framework framework = new Framework();
         framework
+                .setRunner(runner)
                 .addComponent(new LogRequestComponent())
                 .addComponent(routeHandler)
                 .addComponent(new FirstComponent())
@@ -24,7 +28,7 @@ public class application {
         try {
             framework.run();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 

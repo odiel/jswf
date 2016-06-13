@@ -1,48 +1,27 @@
 package framework;
 
-import org.eclipse.jetty.server.*;
-import org.eclipse.jetty.server.handler.AbstractHandler;
+import framework.exceptions.FirstComponentNotProvidedException;
+import framework.exceptions.RunnerNotProvidedException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-public class Framework extends AbstractHandler {
+public class Framework {
 
     protected AbstractComponent firstComponent;
 
     protected AbstractComponent currentComponent;
 
-    protected Server server;
+    protected RunnerInterface runner;
 
-    protected String hostname = "localhost";
-
-    protected int port = 8888;
-
-    public Framework(){
-        server = new Server();
+    public RunnerInterface getRunner() {
+        return runner;
     }
 
-    public String getHostname() {
-        return hostname;
-    }
-
-    public Framework setHostname(String hostname) {
-        this.hostname = hostname;
+    public Framework setRunner(RunnerInterface runner) {
+        this.runner = runner;
 
         return this;
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public Framework setPort(int port) {
-        this.port = port;
-
-        return this;
-    }
+    public Framework(){}
 
     public Framework addComponent(AbstractComponent component) {
         if (firstComponent == null) {
@@ -57,30 +36,15 @@ public class Framework extends AbstractHandler {
     }
 
     public void run() throws Exception {
-        ServerConnector http = new ServerConnector(this.server);
-        http.setHost(hostname);
-        http.setPort(port);
-        http.setIdleTimeout(30000);
-
-        server.addConnector(http);
-        server.setHandler(this);
-
-        server.start();
-        server.join();
-    }
-
-    public Server getServer() {
-        return server;
-    }
-
-    public void handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Environment environment = new Environment(new Request(request), new Response(response));
-
-        if (firstComponent != null) {
-            firstComponent.invoke(environment);
+        if (runner == null) {
+            throw new RunnerNotProvidedException("A Runner instance must be provided in order to start the execution.");
         }
 
-        baseRequest.setHandled(true);
+        if (firstComponent == null) {
+            throw new FirstComponentNotProvidedException("At least one component must be provided in order to start the execution.");
+        }
+
+        runner.run(firstComponent, new Environment());
     }
 
 }
