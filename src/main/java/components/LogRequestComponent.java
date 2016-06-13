@@ -1,10 +1,10 @@
-package framework.components;
+package components;
 
 import framework.AbstractComponent;
 import framework.Environment;
 
-import framework.Request;
-import framework.Response;
+import application.Request;
+import application.Response;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,8 @@ public class LogRequestComponent extends AbstractComponent {
     private static final Logger logger = LoggerFactory.getLogger("LogRequestComponent");
 
     public void invoke(Environment environment) {
-        Request request = environment.getRequest();
-        Response response = environment.getResponse();
+        Request request = (Request) environment.getRequest();
+        Response response = (Response) environment.getResponse();
 
         long initialTimestamp = System.currentTimeMillis();
 

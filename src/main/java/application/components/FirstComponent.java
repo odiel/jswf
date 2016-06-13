@@ -1,9 +1,9 @@
-package framework.components;
+package application.components;
 
 import framework.AbstractComponent;
 import framework.Environment;
 
-public class SecondComponent extends AbstractComponent {
+public class FirstComponent extends AbstractComponent {
 
     public void invoke(Environment environment) {
         next(environment);

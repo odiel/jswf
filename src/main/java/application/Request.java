@@ -1,8 +1,11 @@
-package framework;
+package application;
+
+import framework.RequestInterface;
+import framework.RouteInterface;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class Request {
+public class Request implements RequestInterface {
 
     protected HttpServletRequest httpServletRequest;
 

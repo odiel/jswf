@@ -1,4 +1,4 @@
-package framework.components.httpRouteHandlerComponent;
+package components.httpRouteHandlerComponent;
 
 import framework.AbstractRoute;
 import framework.RequestHandlerInterface;
@@ -124,6 +124,10 @@ public class HttpRoute extends AbstractRoute {
         }
 
         return false;
+    }
+
+    public String getUriParameter(String index) {
+        return uriParameters.get(index);
     }
 
 }

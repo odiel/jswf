@@ -1,10 +1,12 @@
-package framework;
+package application;
+
+import framework.ResponseInterface;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Response {
+public class Response implements ResponseInterface {
 
     protected HttpServletResponse httpServletResponse;
 

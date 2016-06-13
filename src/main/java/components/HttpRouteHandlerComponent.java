@@ -1,7 +1,9 @@
-package framework.components;
+package components;
 
+import application.Request;
+import application.Response;
 import framework.*;
-import framework.components.httpRouteHandlerComponent.HttpRoute;
+import components.httpRouteHandlerComponent.HttpRoute;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.jetty.http.HttpStatus;
 
@@ -22,8 +24,8 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
     public void invoke(Environment environment) {
         this.environment = environment;
 
-        Request request = environment.getRequest();
-        Response response = environment.getResponse();
+        Request request = (Request) environment.getRequest();
+        Response response = (Response) environment.getResponse();
 
         String uri = request.getRequestURI();
         if (!uri.endsWith("/")) {
@@ -34,7 +36,7 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
         HttpRoute route = this.getRouteMatch(method, uri);
 
         if (route != null) {
-            environment.getRequest().setRoute(route);
+            request.setRoute(route);
             route.getHandler().handle(this.environment);
         } else {
             response.setStatus(HttpStatus.NOT_FOUND_404);

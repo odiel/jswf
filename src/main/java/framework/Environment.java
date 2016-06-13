@@ -2,29 +2,29 @@ package framework;
 
 public class Environment {
 
-    Request request;
+    RequestInterface request;
 
-    Response response;
+    ResponseInterface response;
 
     public Environment() {}
 
-    public Environment setRequest(Request request) {
+    public Environment setRequest(RequestInterface request) {
         this.request = request;
 
         return this;
     }
 
-    public Environment setResponse(Response response) {
+    public Environment setResponse(ResponseInterface response) {
         this.response = response;
 
         return this;
     }
 
-    public Request getRequest() {
+    public RequestInterface getRequest() {
         return request;
     }
 
-    public Response getResponse() {
+    public ResponseInterface getResponse() {
         return response;
     }
 }

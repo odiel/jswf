@@ -1,10 +1,12 @@
+package application;
+
 import framework.Framework;
-import framework.HttpRunner;
-import framework.components.FirstComponent;
-import framework.components.LogRequestComponent;
-import framework.components.HttpRouteHandlerComponent;
-import framework.components.SecondComponent;
-import handlers.IndexHandler;
+import runners.HttpRunner;
+import application.components.FirstComponent;
+import components.LogRequestComponent;
+import components.HttpRouteHandlerComponent;
+import application.components.SecondComponent;
+import application.handlers.IndexHandler;
 
 public class application {
 

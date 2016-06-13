@@ -11,6 +11,8 @@ public class Framework {
 
     protected RunnerInterface runner;
 
+    public Framework(){}
+
     public RunnerInterface getRunner() {
         return runner;
     }
@@ -20,8 +22,6 @@ public class Framework {
 
         return this;
     }
-
-    public Framework(){}
 
     public Framework addComponent(AbstractComponent component) {
         if (firstComponent == null) {
@@ -33,6 +33,10 @@ public class Framework {
         }
 
         return this;
+    }
+
+    public ComponentInterface getComponentPipeLine() {
+        return firstComponent;
     }
 
     public void run() throws Exception {
