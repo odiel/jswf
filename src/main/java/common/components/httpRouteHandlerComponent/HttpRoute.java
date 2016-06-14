@@ -1,8 +1,9 @@
-package components.httpRouteHandlerComponent;
+package common.components.httpRouteHandlerComponent;
 
 import framework.AbstractRoute;
 import framework.RequestHandlerInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -16,6 +17,7 @@ public class HttpRoute extends AbstractRoute {
     public static final String METHOD_DELETE = "DELETE";
     public static final String METHOD_OPTIONS = "OPTIONS";
     public static final String METHOD_PATCH = "PATCH";
+    public static final String METHOD_HEAD = "HEAD";
     public static final String METHOD_ANY = "ANY";
 
     public static final String PROTOCOL_HTTP = "HTTP";
@@ -24,7 +26,7 @@ public class HttpRoute extends AbstractRoute {
 
     protected Pattern compiledPath;
 
-    protected String method = HttpRoute.METHOD_ANY;
+    protected ArrayList<String> methods;
 
     protected RequestHandlerInterface handler;
 
@@ -32,12 +34,12 @@ public class HttpRoute extends AbstractRoute {
 
     protected HashMap<String, String> uriParameters;
 
-    public HttpRoute(String method, String name, String path, RequestHandlerInterface handler) {
+    public HttpRoute(ArrayList<String> methods, String name, String path, RequestHandlerInterface handler) {
         this.uriParameters = new HashMap<String, String>();
 
         this.setName(name);
         this.setHandler(handler);
-        this.setMethod(method);
+        this.setMethods(methods);
         this.setPath(path);
     }
 
@@ -54,14 +56,14 @@ public class HttpRoute extends AbstractRoute {
         return this;
     }
 
-    public HttpRoute setMethod(String method) {
-        this.method = method;
+    public HttpRoute setMethods(ArrayList<String> methods) {
+        this.methods = methods;
 
         return this;
     }
 
-    public String getMethod() {
-        return method;
+    public ArrayList<String> getMethods() {
+        return methods;
     }
 
     public Matcher matcher(String uri) {
@@ -88,20 +90,20 @@ public class HttpRoute extends AbstractRoute {
                         if (parts.length == 1) {
                             String parameterName = "uriParameter"+uriParametersCounter;
 
-                            segmentRegex = "(?<"+parameterName+">(.*))/+";
+                            segmentRegex = "(?<"+parameterName+">(.*))";
 
                             uriParameters.put(parameterName, "");
                             uriParametersCounter++;
                         }
 
                         if (parts.length == 2) {
-                            segmentRegex = "(?<" + parts[0] + ">" + parts[1] + ")/+";
+                            segmentRegex = "(?<" + parts[0] + ">" + parts[1] + ")";
                             uriParameters.put(parts[0], "");
                         }
 
                         regex += segmentRegex;
                     } else {
-                        regex += "("+segment+")/+";
+                        regex += "("+segment+")";
                     }
                 }
             }

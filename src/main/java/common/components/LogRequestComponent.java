@@ -1,4 +1,4 @@
-package components;
+package common.components;
 
 import framework.AbstractComponent;
 import framework.Environment;

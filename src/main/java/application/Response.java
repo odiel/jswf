@@ -2,9 +2,11 @@ package application;
 
 import framework.ResponseInterface;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 
 public class Response implements ResponseInterface {
 
@@ -38,8 +40,77 @@ public class Response implements ResponseInterface {
         return httpServletResponse.getContentType();
     }
 
+    public void addContent(String content) throws IOException {
+        httpServletResponse.getWriter().write(content);
+    }
+
     public PrintWriter getWriter() throws IOException {
         return httpServletResponse.getWriter();
     }
+
+    public void addCookie(Cookie cookie) {
+        httpServletResponse.addCookie(cookie);
+    }
+
+    public boolean containsHeader(String name) {
+        return httpServletResponse.containsHeader(name);
+    }
+
+    public String encodeURL(String url) {
+        return httpServletResponse.encodeURL(url);
+    }
+
+    public String encodeRedirectURL(String url) {
+        return httpServletResponse.encodeRedirectURL(url);
+    }
+
+    public void sendError(int sc) throws IOException {
+        httpServletResponse.sendError(sc);
+    }
+
+    public void sendError(int sc, String msg) throws IOException {
+        httpServletResponse.sendError(sc, msg);
+    }
+
+    public void sendRedirect(String location) throws IOException {
+        httpServletResponse.sendRedirect(location);
+    }
+
+    public void setDateHeader(String name, long date) {
+        httpServletResponse.setDateHeader(name, date);
+    }
+
+    public void addDateHeader(String name, long date) {
+        httpServletResponse.addDateHeader(name, date);
+    }
+
+    public void setHeader(String name, String value) {
+        httpServletResponse.setHeader(name, value);
+    }
+
+    public void addHeader(String name, String value) {
+        httpServletResponse.addHeader(name, value);
+    }
+
+    public void setHeader(String name, int value) {
+        httpServletResponse.setIntHeader(name, value);
+    }
+
+    public void addHeader(String name, int value) {
+        httpServletResponse.addIntHeader(name, value);
+    }
+
+    public String getHeader(String name) {
+        return httpServletResponse.getHeader(name);
+    }
+
+    public Collection<String> getHeaders(String name) {
+        return httpServletResponse.getHeaders(name);
+    }
+
+    public Collection<String> getHeaderNames() {
+        return httpServletResponse.getHeaderNames();
+    }
+
 
 }

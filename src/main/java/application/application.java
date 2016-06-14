@@ -1,11 +1,9 @@
 package application;
 
 import framework.Framework;
-import runners.HttpRunner;
-import application.components.FirstComponent;
-import components.LogRequestComponent;
-import components.HttpRouteHandlerComponent;
-import application.components.SecondComponent;
+import common.runners.HttpRunner;
+import common.components.LogRequestComponent;
+import common.components.HttpRouteHandlerComponent;
 import application.handlers.IndexHandler;
 
 public class application {
@@ -23,8 +21,6 @@ public class application {
                 .setRunner(runner)
                 .addComponent(new LogRequestComponent())
                 .addComponent(routeHandler)
-                .addComponent(new FirstComponent())
-                .addComponent(new SecondComponent())
         ;
 
         try {

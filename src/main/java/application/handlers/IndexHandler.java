@@ -2,7 +2,7 @@ package application.handlers;
 
 import application.Request;
 import application.Response;
-import components.httpRouteHandlerComponent.HttpRoute;
+import common.components.httpRouteHandlerComponent.HttpRoute;
 import framework.Environment;
 import framework.RequestHandlerInterface;
 
@@ -16,7 +16,7 @@ public class IndexHandler implements RequestHandlerInterface {
         try {
             Request request = (Request) environment.getRequest();
             HttpRoute route = (HttpRoute) request.getRoute();
-            response.getWriter().append("content "+route.getUriParameter("uriParameter1"));
+            response.addContent("content "+route.getUriParameter("uriParameter1"));
         } catch (IOException e) {
 
         }
