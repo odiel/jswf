@@ -9,9 +9,9 @@ public interface RouteInterface {
 
     public RouteInterface setName(String name);
 
-    public String getPath();
+    public String getUri();
 
-    public RouteInterface setPath(String path);
+    public RouteInterface setUri(String path);
 
     public Pattern getCompiledPath();
 

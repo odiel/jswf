@@ -2,6 +2,7 @@ package application;
 
 import framework.ResponseInterface;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -112,5 +113,12 @@ public class Response implements ResponseInterface {
         return httpServletResponse.getHeaderNames();
     }
 
+    public ServletOutputStream getOutputStream() throws IOException {
+        return httpServletResponse.getOutputStream();
+    }
+
+    public int getBufferSize() {
+        return httpServletResponse.getBufferSize();
+    }
 
 }

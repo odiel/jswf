@@ -38,7 +38,12 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
 
         if (route != null) {
             request.setRoute(route);
-            route.getHandler().handle(this.environment);
+
+            try {
+                route.getHandler().handle(this.environment);
+            } catch (Exception e) {
+                // TODO: 6/16/16 Generate a 500 error code response
+            }
         } else {
             response.setStatus(HttpStatus.NOT_FOUND_404);
             try {

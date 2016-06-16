@@ -24,7 +24,7 @@ public class HttpRoute extends AbstractRoute {
     public static final String PROTOCOL_HTTPS = "HTTPS";
     public static final String PROTOCOL_ANY = "HTTPS";
 
-    protected Pattern compiledPath;
+    protected Pattern compiledUri;
 
     protected ArrayList<String> methods;
 
@@ -34,24 +34,24 @@ public class HttpRoute extends AbstractRoute {
 
     protected HashMap<String, String> uriParameters;
 
-    public HttpRoute(ArrayList<String> methods, String name, String path, RequestHandlerInterface handler) {
+    public HttpRoute(ArrayList<String> methods, String name, String uri, RequestHandlerInterface handler) {
         this.uriParameters = new HashMap<String, String>();
 
         this.setName(name);
         this.setHandler(handler);
         this.setMethods(methods);
-        this.setPath(path);
+        this.setUri(uri);
     }
 
-    public HttpRoute setPath(String path) {
-        if (path.charAt(0) != '/') {
-            path = "/" + path;
+    public HttpRoute setUri(String uri) {
+        if (uri.charAt(0) != '/') {
+            uri = "/" + uri;
         }
 
-        path = path.replace("//", "/");
+        uri = uri.replace("//", "/");
 
-        super.setPath(path);
-        setCompiledPath(path);
+        super.setUri(uri);
+        setCompiledUri(uri);
 
         return this;
     }
@@ -67,10 +67,10 @@ public class HttpRoute extends AbstractRoute {
     }
 
     public Matcher matcher(String uri) {
-        return this.compiledPath.matcher(uri);
+        return this.compiledUri.matcher(uri);
     }
 
-    protected void setCompiledPath(String path) {
+    protected void setCompiledUri(String path) {
         String[] segments = path.split("/");
 
         String regex = "^/";
@@ -111,7 +111,7 @@ public class HttpRoute extends AbstractRoute {
 
         regex += "$";
 
-        this.compiledPath = Pattern.compile(regex);
+        this.compiledUri = Pattern.compile(regex);
     }
 
     public boolean matches(String uri) {

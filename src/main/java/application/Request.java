@@ -3,7 +3,10 @@ package application;
 import framework.RequestInterface;
 import framework.RouteInterface;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -136,6 +139,26 @@ public class Request implements RequestInterface {
 
     public Part getPart(String name) throws IOException, ServletException {
         return httpServletRequest.getPart(name);
+    }
+
+    public Object getAttribute(String name) {
+        return httpServletRequest.getAttribute(name);
+    }
+
+    public Enumeration<String> getAttributeNames() {
+        return httpServletRequest.getAttributeNames();
+    }
+
+    public boolean isAsyncSupported() {
+        return httpServletRequest.isAsyncSupported();
+    }
+
+    public boolean isAsyncStarted() {
+        return httpServletRequest.isAsyncStarted();
+    }
+
+    public AsyncContext startAsync() throws IllegalStateException {
+        return httpServletRequest.startAsync();
     }
 
 }

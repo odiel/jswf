@@ -6,7 +6,7 @@ public abstract class AbstractRoute implements RouteInterface {
 
     protected String name;
 
-    protected String path;
+    protected String uri;
 
     protected Pattern compiledPath;
 
@@ -22,12 +22,12 @@ public abstract class AbstractRoute implements RouteInterface {
         return name;
     }
 
-    public String getPath() {
-        return path;
+    public String getUri() {
+        return uri;
     }
 
-    public AbstractRoute setPath(String path) {
-        this.path = path;
+    public AbstractRoute setUri(String uri) {
+        this.uri = uri;
 
         return this;
     }
