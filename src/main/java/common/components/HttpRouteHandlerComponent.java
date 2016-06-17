@@ -1,7 +1,7 @@
 package common.components;
 
-import application.Request;
-import application.Response;
+import common.components.httpRouteHandlerComponent.HttpRequest;
+import common.components.httpRouteHandlerComponent.HttpResponse;
 import framework.*;
 import common.components.httpRouteHandlerComponent.HttpRoute;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -24,8 +24,8 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
     public void invoke(Environment environment) {
         this.environment = environment;
 
-        Request request = (Request) environment.getRequest();
-        Response response = (Response) environment.getResponse();
+        HttpRequest request = (HttpRequest) environment.getRequest();
+        HttpResponse response = (HttpResponse) environment.getResponse();
 
         String uri = request.getRequestURI();
         if (!uri.endsWith("/")) {

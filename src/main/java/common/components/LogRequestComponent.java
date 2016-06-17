@@ -3,8 +3,8 @@ package common.components;
 import framework.AbstractComponent;
 import framework.Environment;
 
-import application.Request;
-import application.Response;
+import common.components.httpRouteHandlerComponent.HttpRequest;
+import common.components.httpRouteHandlerComponent.HttpResponse;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,8 @@ public class LogRequestComponent extends AbstractComponent {
     private static final Logger logger = LoggerFactory.getLogger("LogRequestComponent");
 
     public void invoke(Environment environment) {
-        Request request = (Request) environment.getRequest();
-        Response response = (Response) environment.getResponse();
+        HttpRequest request = (HttpRequest) environment.getRequest();
+        HttpResponse response = (HttpResponse) environment.getResponse();
 
         long initialTimestamp = System.currentTimeMillis();
 

@@ -1,7 +1,7 @@
 package common.runners;
 
-import application.Request;
-import application.Response;
+import common.components.httpRouteHandlerComponent.HttpRequest;
+import common.components.httpRouteHandlerComponent.HttpResponse;
 import framework.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -72,8 +72,8 @@ public class HttpRunner extends AbstractHandler implements RunnerInterface {
 
     public void handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         environment
-                .setRequest(new Request(request))
-                .setResponse(new Response(response))
+                .setRequest(new HttpRequest(request))
+                .setResponse(new HttpResponse(response))
         ;
 
         component.invoke(environment);

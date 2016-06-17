@@ -1,12 +1,10 @@
-package application;
+package common.components.httpRouteHandlerComponent;
 
 import framework.RequestInterface;
 import framework.RouteInterface;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,13 +13,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
 
-public class Request implements RequestInterface {
+public class HttpRequest implements RequestInterface {
 
     protected HttpServletRequest httpServletRequest;
 
     protected RouteInterface route;
 
-    public Request(HttpServletRequest request) {
+    public HttpRequest(HttpServletRequest request) {
         httpServletRequest = request;
     }
 
@@ -33,7 +31,7 @@ public class Request implements RequestInterface {
         return route;
     }
 
-    public Request setRoute(RouteInterface route) {
+    public HttpRequest setRoute(RouteInterface route) {
         this.route = route;
 
         return this;
