@@ -42,6 +42,7 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
             try {
                 route.getHandler().handle(this.environment);
             } catch (Exception e) {
+                e.printStackTrace();
                 // TODO: 6/16/16 Generate a 500 error code response
             }
         } else {
