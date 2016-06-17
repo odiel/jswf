@@ -10,7 +10,9 @@ public class Environment {
 
     HashMap<String, Object> customs;
 
-    public Environment() {}
+    public Environment() {
+        customs = new HashMap<>();
+    }
 
     public Environment setRequest(RequestInterface request) {
         this.request = request;
