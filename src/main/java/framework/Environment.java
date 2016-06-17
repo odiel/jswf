@@ -1,10 +1,14 @@
 package framework;
 
+import java.util.HashMap;
+
 public class Environment {
 
     RequestInterface request;
 
     ResponseInterface response;
+
+    HashMap<String, Object> customs;
 
     public Environment() {}
 
@@ -27,4 +31,23 @@ public class Environment {
     public ResponseInterface getResponse() {
         return response;
     }
+
+    public HashMap<String, Object> getCustoms() {
+        return customs;
+    }
+
+    public void setCustoms(HashMap<String, Object> customs) {
+        this.customs = customs;
+    }
+
+    public Object getCustom(String key) {
+        return customs.get(key);
+    }
+
+    public Environment setCustom(String key, Object object) {
+        customs.put(key, object);
+
+        return this;
+    }
+
 }
