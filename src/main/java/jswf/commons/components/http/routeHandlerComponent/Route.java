@@ -1,7 +1,7 @@
-package common.components.httpRouteHandlerComponent;
+package jswf.commons.components.http.routeHandlerComponent;
 
-import framework.AbstractRoute;
-import framework.RequestHandlerInterface;
+import jswf.framework.AbstractRoute;
+import jswf.framework.RequestHandlerInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HttpRoute extends AbstractRoute {
+public class Route extends AbstractRoute {
 
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
@@ -30,11 +30,11 @@ public class HttpRoute extends AbstractRoute {
 
     protected RequestHandlerInterface handler;
 
-    protected String protocol = HttpRoute.PROTOCOL_ANY;
+    protected String protocol = Route.PROTOCOL_ANY;
 
     protected HashMap<String, String> uriParameters;
 
-    public HttpRoute(ArrayList<String> methods, String name, String uri, RequestHandlerInterface handler) {
+    public Route(ArrayList<String> methods, String name, String uri, RequestHandlerInterface handler) {
         this.uriParameters = new HashMap<String, String>();
 
         this.setName(name);
@@ -43,7 +43,7 @@ public class HttpRoute extends AbstractRoute {
         this.setUri(uri);
     }
 
-    public HttpRoute setUri(String uri) {
+    public Route setUri(String uri) {
         if (uri.charAt(0) != '/') {
             uri = "/" + uri;
         }
@@ -56,7 +56,7 @@ public class HttpRoute extends AbstractRoute {
         return this;
     }
 
-    public HttpRoute setMethods(ArrayList<String> methods) {
+    public Route setMethods(ArrayList<String> methods) {
         this.methods = methods;
 
         return this;

@@ -1,8 +1,8 @@
-package common.runners;
+package jswf.commons.runners;
 
-import common.components.httpRouteHandlerComponent.HttpRequest;
-import common.components.httpRouteHandlerComponent.HttpResponse;
-import framework.*;
+import jswf.commons.components.http.routeHandlerComponent.Request;
+import jswf.commons.components.http.routeHandlerComponent.Response;
+import jswf.framework.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class HttpRunner extends AbstractHandler implements RunnerInterface {
+public class Http extends AbstractHandler implements RunnerInterface {
 
     protected Server server;
 
@@ -26,7 +26,7 @@ public class HttpRunner extends AbstractHandler implements RunnerInterface {
 
     protected Environment environment;
 
-    public HttpRunner() {
+    public Http() {
         server = new Server();
     }
 
@@ -34,7 +34,7 @@ public class HttpRunner extends AbstractHandler implements RunnerInterface {
         return hostname;
     }
 
-    public HttpRunner setHostname(String hostname) {
+    public Http setHostname(String hostname) {
         this.hostname = hostname;
 
         return this;
@@ -44,7 +44,7 @@ public class HttpRunner extends AbstractHandler implements RunnerInterface {
         return port;
     }
 
-    public HttpRunner setPort(int port) {
+    public Http setPort(int port) {
         this.port = port;
 
         return this;
@@ -72,8 +72,8 @@ public class HttpRunner extends AbstractHandler implements RunnerInterface {
 
     public void handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         environment
-                .setRequest(new HttpRequest(request))
-                .setResponse(new HttpResponse(response))
+                .setRequest(new Request(request))
+                .setResponse(new Response(response))
         ;
 
         component.invoke(environment);

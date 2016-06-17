@@ -1,14 +1,14 @@
 package application.handlers;
 
-import jswf.commons.components.http.routeHandlerComponent.Request;
-import jswf.commons.components.http.routeHandlerComponent.Response;
 import jswf.commons.components.http.routeHandlerComponent.Route;
+import jswf.commons.components.http.routeHandlerComponent.Response;
+import jswf.commons.components.http.routeHandlerComponent.Request;
 import jswf.framework.Environment;
 import jswf.framework.RequestHandlerInterface;
 
 import java.io.IOException;
 
-public class IndexHandler implements RequestHandlerInterface {
+public class UploadHandler implements RequestHandlerInterface {
 
     public void handle(Environment environment) {
         Response response = (Response) environment.getResponse();

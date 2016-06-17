@@ -1,20 +1,20 @@
 package application;
 
-import framework.Framework;
-import common.runners.HttpRunner;
-import common.components.LogRequestComponent;
-import common.components.HttpRouteHandlerComponent;
+import jswf.framework.Framework;
+import jswf.commons.runners.Http;
+import jswf.commons.components.http.LogRequestComponent;
+import jswf.commons.components.http.RouteHandlerComponent;
 import application.handlers.IndexHandler;
 
 public class application {
 
     public static void main(String args[]) {
-        HttpRouteHandlerComponent routeHandler = new HttpRouteHandlerComponent();
+        RouteHandlerComponent routeHandler = new RouteHandlerComponent();
         routeHandler.addGet("index", "/", new IndexHandler());
         //routeHandler.addGet("pepe", "/pepe/{whatever}", new IndexHandler());
         routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
 
-        HttpRunner runner = new HttpRunner();
+        Http runner = new Http();
 
         Framework framework = new Framework();
         framework

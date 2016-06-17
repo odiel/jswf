@@ -1,31 +1,31 @@
-package common.components;
+package jswf.commons.components.http;
 
-import common.components.httpRouteHandlerComponent.HttpRequest;
-import common.components.httpRouteHandlerComponent.HttpResponse;
-import framework.*;
-import common.components.httpRouteHandlerComponent.HttpRoute;
+import jswf.commons.components.http.routeHandlerComponent.Request;
+import jswf.commons.components.http.routeHandlerComponent.Response;
+import jswf.framework.*;
+import jswf.commons.components.http.routeHandlerComponent.Route;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.jetty.http.HttpStatus;
 
 import java.util.*;
 
-public class HttpRouteHandlerComponent extends AbstractComponent {
+public class RouteHandlerComponent extends AbstractComponent {
 
-    protected List<HttpRoute> routes;
-    protected HashMap<String, List<HttpRoute>> initializedRoutes;
+    protected List<Route> routes;
+    protected HashMap<String, List<Route>> initializedRoutes;
 
     Environment environment;
 
-    public HttpRouteHandlerComponent() {
-        routes = new ArrayList<HttpRoute>();
-        initializedRoutes = new HashMap<String, List<HttpRoute>>();
+    public RouteHandlerComponent() {
+        routes = new ArrayList<Route>();
+        initializedRoutes = new HashMap<String, List<Route>>();
     }
 
     public void invoke(Environment environment) {
         this.environment = environment;
 
-        HttpRequest request = (HttpRequest) environment.getRequest();
-        HttpResponse response = (HttpResponse) environment.getResponse();
+        Request request = (Request) environment.getRequest();
+        Response response = (Response) environment.getResponse();
 
         String uri = request.getRequestURI();
         if (!uri.endsWith("/")) {
@@ -34,7 +34,7 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
 
         String method = request.getMethod();
 
-        HttpRoute route = this.getRouteMatch(method, uri);
+        Route route = this.getRouteMatch(method, uri);
 
         if (route != null) {
             request.setRoute(route);
@@ -57,29 +57,29 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
 
     public void addGet(String path, RequestHandlerInterface handler) {
         ArrayList<String> methods = new ArrayList<String>();
-        methods.add(HttpRoute.METHOD_GET);
+        methods.add(Route.METHOD_GET);
 
-        HttpRoute route = new HttpRoute(methods, DigestUtils.md5Hex(path), path, handler);
+        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
         addRoute(route);
     }
 
     public void addGet(String name, String path, RequestHandlerInterface handler) {
         ArrayList<String> methods = new ArrayList<String>();
-        methods.add(HttpRoute.METHOD_GET);
+        methods.add(Route.METHOD_GET);
 
-        HttpRoute route = new HttpRoute(methods, name, path, handler);
+        Route route = new Route(methods, name, path, handler);
         addRoute(route);
     }
 
-    public void addRoute(HttpRoute route) {
+    public void addRoute(Route route) {
         routes.add(route);
     }
 
-    protected HttpRoute getRouteMatch(String method, String uri) {
+    protected Route getRouteMatch(String method, String uri) {
         if (!initializedRoutes.isEmpty()) {
-            List<HttpRoute> routesForMethod = initializedRoutes.get(method);
+            List<Route> routesForMethod = initializedRoutes.get(method);
             if (routesForMethod != null && !routesForMethod.isEmpty()) {
-                for (HttpRoute route: routesForMethod) {
+                for (Route route: routesForMethod) {
                     if (route.matches(uri)) {
                         return route;
                     }
@@ -87,11 +87,11 @@ public class HttpRouteHandlerComponent extends AbstractComponent {
             }
         }
 
-        for (HttpRoute route: routes) {
+        for (Route route: routes) {
             if (route.getMethods().contains(method) && route.matches(uri)) {
-                List<HttpRoute> routesForMethod = initializedRoutes.get(method);
+                List<Route> routesForMethod = initializedRoutes.get(method);
                 if (routesForMethod == null) {
-                    routesForMethod = new ArrayList<HttpRoute>();
+                    routesForMethod = new ArrayList<Route>();
                     initializedRoutes.put(method, routesForMethod);
                 }
 

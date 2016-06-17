@@ -1,4 +1,4 @@
-package framework;
+package jswf.framework;
 
 abstract public class AbstractComponent implements ComponentInterface {
 

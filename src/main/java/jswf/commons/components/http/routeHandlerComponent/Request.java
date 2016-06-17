@@ -1,7 +1,7 @@
-package common.components.httpRouteHandlerComponent;
+package jswf.commons.components.http.routeHandlerComponent;
 
-import framework.RequestInterface;
-import framework.RouteInterface;
+import jswf.framework.RequestInterface;
+import jswf.framework.RouteInterface;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
 
-public class HttpRequest implements RequestInterface {
+public class Request implements RequestInterface {
 
     protected HttpServletRequest httpServletRequest;
 
     protected RouteInterface route;
 
-    public HttpRequest(HttpServletRequest request) {
+    public Request(HttpServletRequest request) {
         httpServletRequest = request;
     }
 
@@ -31,7 +31,7 @@ public class HttpRequest implements RequestInterface {
         return route;
     }
 
-    public HttpRequest setRoute(RouteInterface route) {
+    public Request setRoute(RouteInterface route) {
         this.route = route;
 
         return this;

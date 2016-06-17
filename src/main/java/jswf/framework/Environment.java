@@ -1,4 +1,4 @@
-package framework;
+package jswf.framework;
 
 import java.util.HashMap;
 

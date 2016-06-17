@@ -1,6 +1,6 @@
-package common.components.httpRouteHandlerComponent;
+package jswf.commons.components.http.routeHandlerComponent;
 
-import framework.ResponseInterface;
+import jswf.framework.ResponseInterface;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 
-public class HttpResponse implements ResponseInterface {
+public class Response implements ResponseInterface {
 
     protected HttpServletResponse httpServletResponse;
 
-    public HttpResponse(HttpServletResponse response) {
+    public Response(HttpServletResponse response) {
         httpServletResponse = response;
     }
 
@@ -21,7 +21,7 @@ public class HttpResponse implements ResponseInterface {
         return httpServletResponse;
     }
 
-    public HttpResponse setStatus(int status) {
+    public Response setStatus(int status) {
         httpServletResponse.setStatus(status);
 
         return this;
@@ -31,7 +31,7 @@ public class HttpResponse implements ResponseInterface {
         return httpServletResponse.getStatus();
     }
 
-    public HttpResponse setContentType(String contentType) {
+    public Response setContentType(String contentType) {
         httpServletResponse.setContentType(contentType);
 
         return this;

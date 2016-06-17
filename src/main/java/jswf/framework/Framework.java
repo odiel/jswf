@@ -1,7 +1,7 @@
-package framework;
+package jswf.framework;
 
-import framework.exceptions.FirstComponentNotProvidedException;
-import framework.exceptions.RunnerNotProvidedException;
+import jswf.framework.exceptions.FirstComponentNotProvidedException;
+import jswf.framework.exceptions.RunnerNotProvidedException;
 
 public class Framework {
 
@@ -41,7 +41,7 @@ public class Framework {
 
     public void run() throws Exception {
         if (runner == null) {
-            throw new RunnerNotProvidedException("A Runner instance must be provided in order to start the execution.");
+            throw new RunnerNotProvidedException("A Http instance must be provided in order to start the execution.");
         }
 
         if (firstComponent == null) {

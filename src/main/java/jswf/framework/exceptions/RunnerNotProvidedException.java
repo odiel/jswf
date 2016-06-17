@@ -1,4 +1,4 @@
-package framework.exceptions;
+package jswf.framework.exceptions;
 
 public class RunnerNotProvidedException extends Exception {
 
