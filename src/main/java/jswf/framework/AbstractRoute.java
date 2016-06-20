@@ -1,5 +1,7 @@
 package jswf.framework;
 
+import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
+
 import java.util.regex.Pattern;
 
 public abstract class AbstractRoute implements RouteInterface {

@@ -1,7 +1,7 @@
 package jswf.commons.components.http.statiFilesServerComponent;
 
 import jswf.commons.components.http.routeHandlerComponent.Route;
-import jswf.framework.RequestHandlerInterface;
+import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 
 import java.util.ArrayList;
 

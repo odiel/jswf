@@ -1,4 +1,6 @@
-package jswf.framework;
+package jswf.commons.components.http.routeHandlerComponent;
+
+import jswf.framework.Environment;
 
 public interface RequestHandlerInterface {
 

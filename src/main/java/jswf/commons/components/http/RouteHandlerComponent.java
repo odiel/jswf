@@ -1,6 +1,7 @@
 package jswf.commons.components.http;
 
 import jswf.commons.components.http.routeHandlerComponent.Request;
+import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 import jswf.commons.components.http.routeHandlerComponent.Response;
 import jswf.framework.*;
 import jswf.commons.components.http.routeHandlerComponent.Route;
