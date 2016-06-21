@@ -1,6 +1,6 @@
-package jswf.framework;
+package jswf.commons.components.http.routeHandlerComponent;
 
-import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
+import jswf.framework.RouteInterface;
 
 import java.util.regex.Pattern;
 

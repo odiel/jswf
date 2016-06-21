@@ -1,7 +1,5 @@
 package jswf.commons.components.http.routeHandlerComponent;
 
-import jswf.framework.AbstractRoute;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +57,10 @@ public class Route extends AbstractRoute {
 
     public ArrayList<String> getMethods() {
         return methods;
+    }
+
+    public boolean matchesMethod(String method) {
+        return (methods.contains(method) || methods.contains(METHOD_ANY));
     }
 
     public Matcher matcher(String uri) {

@@ -1,5 +1,6 @@
 package application;
 
+import application.handlers.RestHandler;
 import jswf.framework.Framework;
 import jswf.commons.runners.Http;
 import jswf.commons.components.http.LogRequestComponent;
@@ -11,9 +12,9 @@ public class application {
     public static void main(String args[]) {
         RouteHandlerComponent routeHandler = new RouteHandlerComponent();
         routeHandler.addGet("index", "/", new IndexHandler());
-//        //routeHandler.addGet("pepe", "/pepe/{whatever}", new IndexHandler());
         routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
         routeHandler.addGet("pepe1", "/pepe/", new IndexHandler());
+        routeHandler.addAny("any", "/rest/", new RestHandler());
 
         Http runner = new Http();
 

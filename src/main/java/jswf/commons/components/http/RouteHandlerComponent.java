@@ -56,20 +56,104 @@ public class RouteHandlerComponent extends AbstractComponent {
         next(environment);
     }
 
-    public void addGet(String path, RequestHandlerInterface handler) {
-        ArrayList<String> methods = new ArrayList<String>();
-        methods.add(Route.METHOD_GET);
-
-        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
-        addRoute(route);
-    }
-
-    public void addGet(String name, String path, RequestHandlerInterface handler) {
-        ArrayList<String> methods = new ArrayList<String>();
+    public RouteHandlerComponent addGet(String name, String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
         methods.add(Route.METHOD_GET);
 
         Route route = new Route(methods, name, path, handler);
         addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addGet(String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_GET);
+
+        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addPost(String name, String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_POST);
+
+        Route route = new Route(methods, name, path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addPost(String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_POST);
+
+        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addPut(String name, String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_PUT);
+
+        Route route = new Route(methods, name, path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addPut(String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_PUT);
+
+        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addDelete(String name, String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_DELETE);
+
+        Route route = new Route(methods, name, path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addDelete(String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_DELETE);
+
+        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addAny(String name, String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_ANY);
+
+        Route route = new Route(methods, name, path, handler);
+        addRoute(route);
+
+        return this;
+    }
+
+    public RouteHandlerComponent addAny(String path, RequestHandlerInterface handler) {
+        ArrayList<String> methods = new ArrayList<>();
+        methods.add(Route.METHOD_ANY);
+
+        Route route = new Route(methods, DigestUtils.md5Hex(path), path, handler);
+        addRoute(route);
+
+        return this;
     }
 
     public void addRoute(Route route) {
@@ -89,10 +173,10 @@ public class RouteHandlerComponent extends AbstractComponent {
         }
 
         for (Route route: routes) {
-            if (route.getMethods().contains(method) && route.matches(uri)) {
+            if (route.matchesMethod(method) && route.matches(uri)) {
                 List<Route> routesForMethod = initializedRoutes.get(method);
                 if (routesForMethod == null) {
-                    routesForMethod = new ArrayList<Route>();
+                    routesForMethod = new ArrayList<>();
                     initializedRoutes.put(method, routesForMethod);
                 }
 

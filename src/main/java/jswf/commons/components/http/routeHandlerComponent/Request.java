@@ -5,11 +5,15 @@ import jswf.framework.RouteInterface;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Enumeration;
 
@@ -18,6 +22,9 @@ public class Request implements RequestInterface {
     protected HttpServletRequest httpServletRequest;
 
     protected RouteInterface route;
+
+    protected boolean isBodyExtracted = false;
+    protected String body;
 
     public Request(HttpServletRequest request) {
         httpServletRequest = request;
@@ -35,6 +42,43 @@ public class Request implements RequestInterface {
         this.route = route;
 
         return this;
+    }
+
+    public String getBody() throws Exception {
+        if (!isBodyExtracted) {
+            StringBuilder stringBuilder = new StringBuilder();
+            BufferedReader bufferedReader = null;
+
+            // TODO: 6/21/2016 Take in consideration character encoding header comming from the client to encode the body properly
+            try {
+                InputStream inputStream = httpServletRequest.getInputStream();
+                if (inputStream != null) {
+                    bufferedReader = httpServletRequest.getReader();
+                    char[] charBuffer = new char[128];
+                    int bytesRead = -1;
+                    while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
+                        stringBuilder.append(charBuffer, 0, bytesRead);
+                    }
+                } else {
+                    stringBuilder.append("");
+                }
+            } catch (IOException e) {
+                throw e;
+            } finally {
+                if (bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        throw e;
+                    }
+                }
+            }
+
+            body = stringBuilder.toString();
+            isBodyExtracted = true;
+        }
+
+        return body;
     }
 
 
@@ -157,6 +201,14 @@ public class Request implements RequestInterface {
 
     public AsyncContext startAsync() throws IllegalStateException {
         return httpServletRequest.startAsync();
+    }
+
+    public BufferedReader getReader() throws IOException {
+        return httpServletRequest.getReader();
+    }
+
+    public ServletInputStream getInputStream() throws IOException {
+        return httpServletRequest.getInputStream();
     }
 
 }

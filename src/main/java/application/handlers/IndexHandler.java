@@ -18,7 +18,7 @@ public class IndexHandler implements RequestHandlerInterface {
             Route route = (Route) request.getRoute();
             response.addContent("content "+route.getUriParameter("uriParameter1"));
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
