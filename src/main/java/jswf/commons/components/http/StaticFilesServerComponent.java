@@ -5,7 +5,7 @@ import jswf.commons.components.http.routeHandlerComponent.Request;
 import jswf.commons.components.http.routeHandlerComponent.Response;
 import jswf.commons.components.http.statiFilesServerComponent.StaticFileRoute;
 import jswf.framework.Environment;
-import jswf.framework.RequestHandlerInterface;
+import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 import org.eclipse.jetty.io.WriterOutputStream;
 import org.eclipse.jetty.server.HttpOutput;
 import org.eclipse.jetty.util.BufferUtil;

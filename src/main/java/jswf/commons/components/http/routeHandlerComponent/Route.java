@@ -1,7 +1,6 @@
 package jswf.commons.components.http.routeHandlerComponent;
 
 import jswf.framework.AbstractRoute;
-import jswf.framework.RequestHandlerInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
