@@ -85,24 +85,26 @@ public class Route extends AbstractRoute {
                         if (parts.length == 1) {
                             String parameterName = "uriParameter"+uriParametersCounter;
 
-                            segmentRegex = "(?<"+parameterName+">(.*))";
+                            segmentRegex = "(?<"+parameterName+">(.*))/";
 
                             uriParameters.put(parameterName, "");
                             uriParametersCounter++;
                         }
 
                         if (parts.length == 2) {
-                            segmentRegex = "(?<" + parts[0] + ">" + parts[1] + ")";
+                            segmentRegex = "(?<" + parts[0] + ">" + parts[1] + ")/";
                             uriParameters.put(parts[0], "");
                         }
 
                         regex += segmentRegex;
                     } else {
-                        regex += "("+segment+")";
+                        regex += "("+segment+")/";
                     }
                 }
             }
         }
+
+        regex = regex.substring(0, regex.length()-1);
 
         regex += "$";
 
