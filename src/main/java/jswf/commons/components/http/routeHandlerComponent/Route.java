@@ -44,11 +44,7 @@ public class Route extends AbstractRoute {
     }
 
     public Route setUri(String uri) {
-        if (uri.charAt(0) != '/') {
-            uri = "/" + uri;
-        }
-
-        uri = uri.replace("//", "/");
+        uri = normalizeUri(uri);
 
         super.setUri(uri);
         setCompiledUri(uri);
@@ -115,7 +111,7 @@ public class Route extends AbstractRoute {
     }
 
     public boolean matches(String uri) {
-        Matcher matcher = matcher(uri);
+        Matcher matcher = matcher(normalizeUri(uri));
 
         if (matcher.find()) {
             for (Map.Entry<String, String> parameter: uriParameters.entrySet()) {
@@ -130,6 +126,16 @@ public class Route extends AbstractRoute {
 
     public String getUriParameter(String index) {
         return uriParameters.get(index);
+    }
+
+    protected String normalizeUri(String uri) {
+        uri = uri.replace("//", "/");
+
+        if (uri.endsWith("/")) {
+            uri = uri.substring(0, uri.length()-1);
+        }
+
+        return uri;
     }
 
 }

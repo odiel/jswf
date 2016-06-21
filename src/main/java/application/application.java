@@ -10,9 +10,10 @@ public class application {
 
     public static void main(String args[]) {
         RouteHandlerComponent routeHandler = new RouteHandlerComponent();
-        routeHandler.addGet("index", "/", new IndexHandler());
-        //routeHandler.addGet("pepe", "/pepe/{whatever}", new IndexHandler());
-        routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
+//        routeHandler.addGet("index", "/", new IndexHandler());
+//        //routeHandler.addGet("pepe", "/pepe/{whatever}", new IndexHandler());
+//        routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
+        routeHandler.addGet("pepe1", "/pepe/", new IndexHandler());
 
         Http runner = new Http();
 
