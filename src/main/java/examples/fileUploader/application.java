@@ -1,27 +1,25 @@
-package application;
+package examples.fileUploader;
 
-import application.handlers.IndexHandler;
+import jswf.framework.Framework;
 import jswf.commons.components.http.RouteHandlerComponent;
 import jswf.commons.components.http.LogRequestComponent;
 import jswf.commons.components.http.StaticFilesServerComponent;
 import jswf.commons.runners.Http;
-import jswf.framework.Framework;
 
-public class uploader_application {
+import examples.fileUploader.handlers.UploadHandler;
+
+public class application {
 
     public static void main(String args[]) {
         RouteHandlerComponent routeHandler = new RouteHandlerComponent();
-        routeHandler.addGet("index", "/", new IndexHandler());
-        //routeHandler.addGet("upload", "/", new IndexHandler());
+        routeHandler.addGet("upload", "/upload", new UploadHandler());
 
         Http runner = new Http();
 
         StaticFilesServerComponent staticFilesServerComponent = new StaticFilesServerComponent();
         staticFilesServerComponent
                 .setBasePath(System.getProperty("user.dir"))
-                .addAllowedFileExtension("html")
-                .addAllowedFileExtension("mp4")
-                .addPath("/src/main/java/application/public", "/{(.*)*}")
+                .addPath("/src/main/java/examples/fileUploader/public", "/{(.*)*}")
         ;
 
         Framework framework = new Framework();

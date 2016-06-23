@@ -1,22 +1,22 @@
-package application.handlers;
+package examples.routeHandler.handlers;
 
 import jswf.commons.components.http.routeHandlerComponent.Request;
 import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 import jswf.commons.components.http.routeHandlerComponent.Response;
-import jswf.commons.components.http.routeHandlerComponent.Route;
 import jswf.framework.Environment;
 
 import java.io.IOException;
 
-public class RestHandler implements RequestHandlerInterface {
+public class JsonContentHandler implements RequestHandlerInterface {
 
     public void handle(Environment environment) {
-        Request request = (Request) environment.getRequest();
         Response response = (Response) environment.getResponse();
+        response.setContentType("examples/json");
         try {
-            response.addContent("method: "+request.getMethod());
-        } catch (Exception e) {
-
+            Request request = (Request) environment.getRequest();
+            response.addContent(request.getBody());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
