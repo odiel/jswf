@@ -1,5 +1,6 @@
 package application;
 
+import application.handlers.JsonContentHandler;
 import application.handlers.RestHandler;
 import jswf.framework.Framework;
 import jswf.commons.runners.Http;
@@ -13,7 +14,7 @@ public class application {
         RouteHandlerComponent routeHandler = new RouteHandlerComponent();
         routeHandler.addGet("index", "/", new IndexHandler());
         routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
-        routeHandler.addGet("pepe1", "/pepe/", new IndexHandler());
+        routeHandler.addPost("json-content", "/json/", new JsonContentHandler());
         routeHandler.addAny("any", "/rest/", new RestHandler());
 
         Http runner = new Http();

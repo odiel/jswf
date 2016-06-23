@@ -44,16 +44,15 @@ public class Request implements RequestInterface {
         return this;
     }
 
-    public String getBody() throws Exception {
+    public String getBody() throws IOException {
         if (!isBodyExtracted) {
             StringBuilder stringBuilder = new StringBuilder();
             BufferedReader bufferedReader = null;
 
-            // TODO: 6/21/2016 Take in consideration character encoding header comming from the client to encode the body properly
+            // TODO: 6/21/2016 Take in consideration character encoding header coming from the client to encode the body properly
             try {
-                InputStream inputStream = httpServletRequest.getInputStream();
-                if (inputStream != null) {
-                    bufferedReader = httpServletRequest.getReader();
+                bufferedReader = httpServletRequest.getReader();
+                if (bufferedReader != null) {
                     char[] charBuffer = new char[128];
                     int bytesRead = -1;
                     while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
@@ -62,20 +61,14 @@ public class Request implements RequestInterface {
                 } else {
                     stringBuilder.append("");
                 }
-            } catch (IOException e) {
-                throw e;
+
+                body = stringBuilder.toString();
+                isBodyExtracted = true;
             } finally {
                 if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                    } catch (IOException e) {
-                        throw e;
-                    }
+                    bufferedReader.close();
                 }
             }
-
-            body = stringBuilder.toString();
-            isBodyExtracted = true;
         }
 
         return body;
