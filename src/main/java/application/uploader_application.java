@@ -19,6 +19,8 @@ public class uploader_application {
         StaticFilesServerComponent staticFilesServerComponent = new StaticFilesServerComponent();
         staticFilesServerComponent
                 .setBasePath(System.getProperty("user.dir"))
+                .addAllowedFileExtension("html")
+                .addAllowedFileExtension("mp4")
                 .addPath("/src/main/java/application/public", "/{(.*)*}")
         ;
 

@@ -43,8 +43,10 @@ public class RouteHandlerComponent extends AbstractComponent {
             try {
                 route.getHandler().handle(this.environment);
             } catch (Exception e) {
-                e.printStackTrace();
-                // TODO: 6/16/16 Generate a 500 error code response
+                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
+                try {
+                    response.getWriter().print("505, internal server error");
+                } catch (Exception ex) {}
             }
         } else {
             response.setStatus(HttpStatus.NOT_FOUND_404);
