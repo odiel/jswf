@@ -48,7 +48,7 @@ public class RouteHandlerComponent extends AbstractComponent {
                 environment.setException(e);
             }
         } else {
-            RouteNotFoundException exception = new RouteNotFoundException("Route ["+uri+"] not found.");
+            RouteNotFoundException exception = new RouteNotFoundException("Route "+uri+" not found.");
             environment.setException(exception);
         }
 

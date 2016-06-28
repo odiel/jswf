@@ -1,5 +1,6 @@
 package examples.fileUploader;
 
+import jswf.commons.components.http.DummyExceptionRendererComponent;
 import jswf.framework.Framework;
 import jswf.commons.components.http.RouteHandlerComponent;
 import jswf.commons.components.http.LogRequestComponent;
@@ -29,6 +30,7 @@ public class application {
                 .addComponent(new LogRequestComponent())
                 .addComponent(staticFilesServerComponent)
                 .addComponent(routeHandler)
+                .addComponent(new DummyExceptionRendererComponent())
         ;
 
         try {
