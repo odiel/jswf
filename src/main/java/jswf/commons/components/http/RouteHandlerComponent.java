@@ -1,5 +1,6 @@
 package jswf.commons.components.http;
 
+import jswf.commons.components.http.exceptions.RouteNotFoundException;
 import jswf.commons.components.http.routeHandlerComponent.Request;
 import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 import jswf.commons.components.http.routeHandlerComponent.Response;
@@ -8,6 +9,7 @@ import jswf.commons.components.http.routeHandlerComponent.Route;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.jetty.http.HttpStatus;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class RouteHandlerComponent extends AbstractComponent {
@@ -43,16 +45,11 @@ public class RouteHandlerComponent extends AbstractComponent {
             try {
                 route.getHandler().handle(this.environment);
             } catch (Exception e) {
-                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
-                try {
-                    response.getWriter().print("505, internal server error");
-                } catch (Exception ex) {}
+                environment.setException(e);
             }
         } else {
-            response.setStatus(HttpStatus.NOT_FOUND_404);
-            try {
-                response.getWriter().print("404, route not found.");
-            } catch (Exception e) {}
+            RouteNotFoundException exception = new RouteNotFoundException("Route ["+uri+"] not found.");
+            environment.setException(exception);
         }
 
         next(environment);

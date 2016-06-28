@@ -93,13 +93,11 @@ public class StaticFilesServerComponent extends RouteHandlerComponent implements
             try {
                 route.getHandler().handle(environment);
             } catch (Exception e) {
-                if (e instanceof FileNotFoundException) {
-                    next(environment);
-                } else {
-                    try {
-                        response.getWriter().print("505, internal server error");
-                    } catch (Exception ex) {}
+                if (!(e instanceof FileNotFoundException)) {
+                    environment.setException(e);
                 }
+
+                next(environment);
             }
         } else {
             next(environment);
