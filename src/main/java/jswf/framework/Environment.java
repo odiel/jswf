@@ -4,14 +4,19 @@ import java.util.HashMap;
 
 public class Environment {
 
+    HashMap<String, Object> services;
+
     RequestInterface request;
 
     ResponseInterface response;
 
+    Exception exception;
+
     HashMap<String, Object> customs;
 
-    public Environment() {
-        customs = new HashMap<>();
+    public Environment(HashMap<String, Object> services) {
+        this.services = services;
+        this.customs = new HashMap<>();
     }
 
     public Environment setRequest(RequestInterface request) {
@@ -52,4 +57,15 @@ public class Environment {
         return this;
     }
 
+    public HashMap<String, Object> getServices() { return services; }
+
+    public Object getService(String id) { return services.get(id); }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
 }

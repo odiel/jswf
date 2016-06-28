@@ -3,7 +3,11 @@ package jswf.framework;
 import jswf.framework.exceptions.FirstComponentNotProvidedException;
 import jswf.framework.exceptions.RunnerNotProvidedException;
 
+import java.util.HashMap;
+
 public class Framework {
+
+    protected HashMap<String, Object> services;
 
     protected AbstractComponent firstComponent;
 
@@ -11,7 +15,9 @@ public class Framework {
 
     protected RunnerInterface runner;
 
-    public Framework(){}
+    public Framework(){
+        services = new HashMap<>();
+    }
 
     public RunnerInterface getRunner() {
         return runner;
@@ -39,6 +45,20 @@ public class Framework {
         return firstComponent;
     }
 
+    public Framework addService(String id, Object service) {
+        services.put(id, service);
+
+        return this;
+    }
+
+    public Object getService(String id) {
+        return services.get(id);
+    }
+
+    public HashMap<String, Object> getServices() {
+        return services;
+    }
+
     public void run() throws Exception {
         if (runner == null) {
             throw new RunnerNotProvidedException("A Http instance must be provided in order to start the execution.");
@@ -48,7 +68,7 @@ public class Framework {
             throw new FirstComponentNotProvidedException("At least one component must be provided in order to start the execution.");
         }
 
-        runner.run(firstComponent, new Environment());
+        runner.run(firstComponent, new Environment(services));
     }
 
 }

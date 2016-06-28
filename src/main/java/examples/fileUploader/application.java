@@ -15,6 +15,7 @@ public class application {
         routeHandler.addGet("upload", "/upload", new UploadHandler());
 
         Http runner = new Http();
+        runner.setPort(8080);
 
         StaticFilesServerComponent staticFilesServerComponent = new StaticFilesServerComponent();
         staticFilesServerComponent
