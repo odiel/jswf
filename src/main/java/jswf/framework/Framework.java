@@ -68,7 +68,7 @@ public class Framework {
             throw new FirstComponentNotProvidedException("At least one component must be provided in order to start the execution.");
         }
 
-        runner.run(firstComponent, new Environment(services));
+        runner.run(firstComponent, services);
     }
 
 }

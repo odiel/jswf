@@ -7,9 +7,7 @@ import jswf.commons.components.http.routeHandlerComponent.Response;
 import jswf.framework.*;
 import jswf.commons.components.http.routeHandlerComponent.Route;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.eclipse.jetty.http.HttpStatus;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class RouteHandlerComponent extends AbstractComponent {

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Http extends AbstractHandler implements RunnerInterface {
 
@@ -24,7 +25,7 @@ public class Http extends AbstractHandler implements RunnerInterface {
 
     protected ComponentInterface component;
 
-    protected Environment environment;
+    protected HashMap<String, Object> services;
 
     public Http() {
         server = new Server();
@@ -54,9 +55,9 @@ public class Http extends AbstractHandler implements RunnerInterface {
         return server;
     }
 
-    public void run(ComponentInterface component, Environment environment) throws Exception {
+    public void run(ComponentInterface component, HashMap<String, Object> services) throws Exception {
         this.component = component;
-        this.environment = environment;
+        this.services = services;
 
         ServerConnector http = new ServerConnector(this.server);
         http.setHost(hostname);
@@ -71,6 +72,7 @@ public class Http extends AbstractHandler implements RunnerInterface {
     }
 
     public void handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Environment environment = new Environment(services);
         environment
                 .setRequest(new Request(request))
                 .setResponse(new Response(response))
