@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 // TODO: 6/14/16 Implement a cache system to cache file content in memory
+// TODO: 7/28/2016 Implement header for mime type depending on the file extension, maybe use Jetty mimetype object to identify the mime type
 
 public class StaticFilesServerComponent extends RouteHandlerComponent implements RequestHandlerInterface {
 
@@ -119,9 +120,10 @@ public class StaticFilesServerComponent extends RouteHandlerComponent implements
             throw new FileNotFoundException("Static file [" + path + "] does not exists.");
         }
 
+        String fileName = file.getName();
+        String fileExtension = fileName.substring(fileName.lastIndexOf('.')+1);
+
         if (allowedFileExtensions.size() > 0) {
-            String fileName = file.getName();
-            String fileExtension = fileName.substring(fileName.lastIndexOf('.')+1);
             if (!allowedFileExtensions.contains(fileExtension)) {
                 throw new FileNotFoundException("Static file [" + path + "] was found but is not allowed by the extension [" + fileExtension + "].");
             }
