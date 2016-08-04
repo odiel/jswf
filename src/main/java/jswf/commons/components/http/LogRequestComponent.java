@@ -19,13 +19,13 @@ public class LogRequestComponent extends AbstractComponent {
 
         long initialTimestamp = System.currentTimeMillis();
 
-        System.out.println(initialTimestamp + " | -> " + request.getMethod() + ": " + request.getRequestURI());
+        System.out.println(initialTimestamp + " | -> " + request.getRequestURI() + " | " + request.getMethod());
 
         next(environment);
 
         int statusCode = response.getStatus();
         long finalTimestamp = System.currentTimeMillis();
-        System.out.println(finalTimestamp + " | <- (" + (finalTimestamp - initialTimestamp) + "ms) " + statusCode + " " + HttpStatus.getMessage(response.getStatus()));
+        System.out.println(finalTimestamp + " | <- " + request.getRequestURI() + " | " + (finalTimestamp - initialTimestamp) + "ms | " +  statusCode + " " + HttpStatus.getMessage(response.getStatus()));
     }
 
 }
