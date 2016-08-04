@@ -41,6 +41,12 @@ public class Response implements ResponseInterface {
         return httpServletResponse.getContentType();
     }
 
+    public Response setContentLength(int length) {
+        httpServletResponse.setContentLength(length);
+
+        return this;
+    }
+
     public void addContent(String content) throws IOException {
         httpServletResponse.getWriter().write(content);
     }

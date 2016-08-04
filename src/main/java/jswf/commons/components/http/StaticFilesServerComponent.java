@@ -8,46 +8,48 @@ import jswf.commons.components.http.statiFilesServerComponent.StaticFileRoute;
 import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 
 import org.eclipse.jetty.http.HttpHeader;
-import org.eclipse.jetty.io.WriterOutputStream;
+import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.server.HttpOutput;
-import org.eclipse.jetty.util.BufferUtil;
-import org.eclipse.jetty.util.Callback;
-import org.eclipse.jetty.util.IO;
 import org.eclipse.jetty.util.URIUtil;
 
-import javax.servlet.AsyncContext;
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-// TODO: 6/14/16 Implement a cache system to cache file content in memory
-// TODO: 7/28/2016 Implement header for mime type depending on the file extension, maybe use Jetty mimetype object to identify the mime type
 
 public class StaticFilesServerComponent extends RouteHandlerComponent implements RequestHandlerInterface {
 
-    Environment environment;
+    private String basePath;
 
-    String basePath;
+    private ArrayList<String> allowedFileExtensions;
 
-    int minAsyncContentLength = 0;
-
-    int minMemoryMappedContentLength = 1024;
-
-    ArrayList<String> allowedFileExtensions;
+    private MimeTypes mimeTypes;
 
     public StaticFilesServerComponent() {
-        routes = new ArrayList<Route>();
-        allowedFileExtensions = new ArrayList<String>();
-        initializedRoutes = new HashMap<String, List<Route>>();
+        routes = new ArrayList<>();
+        allowedFileExtensions = new ArrayList<>();
+        initializedRoutes = new HashMap<>();
+
+        allowedFileExtensions.add("html");
+        allowedFileExtensions.add("css");
+        allowedFileExtensions.add("js");
+
+        allowedFileExtensions.add("jpeg");
+        allowedFileExtensions.add("jpg");
+        allowedFileExtensions.add("png");
+        allowedFileExtensions.add("gif");
+
+        allowedFileExtensions.add("otf");
+        allowedFileExtensions.add("eot");
+        allowedFileExtensions.add("svg");
+        allowedFileExtensions.add("ttf");
+        allowedFileExtensions.add("woff");
+        allowedFileExtensions.add("woff2");
+
+        mimeTypes = new MimeTypes();
     }
 
     public String getBasePath() {
@@ -78,10 +80,7 @@ public class StaticFilesServerComponent extends RouteHandlerComponent implements
     }
 
     public void invoke(Environment environment) {
-        this.environment = environment;
-
         Request request = (Request) environment.getRequest();
-        Response response = (Response) environment.getResponse();
 
         String uri = request.getRequestURI();
         String method = request.getMethod();
@@ -123,91 +122,28 @@ public class StaticFilesServerComponent extends RouteHandlerComponent implements
         String fileName = file.getName();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.')+1);
 
-        if (allowedFileExtensions.size() > 0) {
-            if (!allowedFileExtensions.contains(fileExtension)) {
-                throw new FileNotFoundException("Static file [" + path + "] was found but is not allowed by the extension [" + fileExtension + "].");
-            }
+        if (allowedFileExtensions.size() > 0 && !allowedFileExtensions.contains(fileExtension)) {
+            throw new FileNotFoundException("Static file [" + path + "] was found but is not allowed by the extension [" + fileExtension + "].");
         }
 
         String lastModified = DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.of("GMT")));
-        response.addHeader(HttpHeader.LAST_MODIFIED.toString(), lastModified);
 
-        OutputStream outputStream;
-
-        try {
-            outputStream = response.getOutputStream();
-        } catch (IllegalStateException e) {
-            outputStream = new WriterOutputStream(response.getWriter());
-        }
-
-        FileInputStream fileInputStream = new FileInputStream(file);
-
-        // Has the output been wrapped
-        if (!(outputStream instanceof HttpOutput)) {
-            // Write content via wrapped output
-            try (InputStream inputStream = fileInputStream)
-            {
-                inputStream.skip(0);
-                if (file.length() < 0) {
-                    IO.copy(inputStream, outputStream);
-                } else {
-                    IO.copy(inputStream, outputStream, file.length());
-                }
-            }
+        String ifModifiedSinceHeader = request.getHeader("If-Modified-Since");
+        if (lastModified.equals(ifModifiedSinceHeader)) {
+            response.setStatus(304);
         } else {
-            HttpOutput httpOutputStream = (HttpOutput) outputStream;
+            final FileInputStream fileInputStream = new FileInputStream(file);
 
-            // select async by size
-            int minAsyncSize = minAsyncContentLength == 0 ? response.getBufferSize() : minAsyncContentLength;
+            HttpOutput httpOutputStream = (HttpOutput) response.getOutputStream();
 
-            if (request.isAsyncSupported() && minAsyncSize > 0 && file.length() >= minAsyncSize) {
-                final AsyncContext async = request.startAsync();
-                async.setTimeout(0);
+            response.addHeader(HttpHeader.LAST_MODIFIED.toString(), lastModified);
+            response.setContentType(mimeTypes.getMimeByExtension(path));
+            response.setContentLength(Math.toIntExact(file.length()));
 
-                Callback callback = new Callback()
-                {
-                    @Override
-                    public void succeeded()
-                    {
-                        async.complete();
-                    }
+            httpOutputStream.sendContent(fileInputStream);
 
-                    @Override
-                    public void failed(Throwable x)
-                    {
-                        async.complete();
-                    }
-                };
-
-                // Can we use a memory mapped file?
-                if (minMemoryMappedContentLength > 0 && file.length() > minMemoryMappedContentLength && file.length() < Integer.MAX_VALUE) {
-                    ByteBuffer buffer = BufferUtil.toMappedBuffer(file);
-                    httpOutputStream.sendContent(buffer,callback);
-                } else {
-                    // Do a blocking write of a channel (if available) or input stream
-                    // Close of the channel/input stream is done by the async sendContent
-                    ReadableByteChannel channel = FileChannel.open(file.toPath(), StandardOpenOption.READ);
-                    if (channel != null) {
-                        httpOutputStream.sendContent(channel, callback);
-                    } else {
-                        httpOutputStream.sendContent(fileInputStream, callback);
-                    }
-                }
-            } else {
-                // Can we use a memory mapped file?
-                if (minMemoryMappedContentLength > 0 && file.length() > minMemoryMappedContentLength) {
-                    ByteBuffer buffer = BufferUtil.toMappedBuffer(file);
-                    httpOutputStream.sendContent(buffer);
-                } else {
-                    // Do a blocking write of a channel (if available) or input stream
-                    ReadableByteChannel channel = FileChannel.open(file.toPath(), StandardOpenOption.READ);
-                    if (channel != null) {
-                        httpOutputStream.sendContent(channel);
-                    } else {
-                        httpOutputStream.sendContent(fileInputStream);
-                    }
-                }
-            }
+            httpOutputStream.close();
+            fileInputStream.close();
         }
 
     }
