@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<button onclick="connect()">Connect</button>
+<button onclick="message()">Message</button>
+<button onclick="disconnect()">Close</button>
+
+<script>
+var sock;
+
+function connect() {
+
+    //sock = new SockJS('http://localhost:8888/echo', null, ['websockets']);
+    sock = new WebSocket("ws://localhost:8888/echo/");
+    sock.onopen = function() {
+        console.log('open');
+
+    }
+    sock.onmessage = function(e) {
+        console.log('message', e.data);
+    }
+    sock.onclose = function() {
+        console.log('close');
+    }
+
+}
+
+function message() {
+    sock.send("Here's some text that the server is urgently awaiting!");
+}
+
+function disconnect() {
+    sock.close();
+}
+</script>
+</body>
+</html>

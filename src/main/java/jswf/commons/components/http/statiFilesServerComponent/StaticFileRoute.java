@@ -1,7 +1,6 @@
 package jswf.commons.components.http.statiFilesServerComponent;
 
 import jswf.commons.components.http.routeHandlerComponent.Route;
-import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
 
 import java.util.ArrayList;
 
@@ -9,7 +8,7 @@ public class StaticFileRoute extends Route {
 
     protected String path;
 
-    public StaticFileRoute(ArrayList<String> methods, String path, String uri, RequestHandlerInterface handler) {
+    public StaticFileRoute(ArrayList<String> methods, String path, String uri, Class<?> handler) {
         super(methods, path, uri, handler);
 
         this.path = path;

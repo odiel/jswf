@@ -1,7 +1,5 @@
 package jswf.framework;
 
-import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,9 +17,9 @@ public interface RouteInterface {
 
     public RouteInterface setCompiledPath(Pattern compiledPath);
 
-    public RequestHandlerInterface getHandler();
+    public Class<?> getHandler();
 
-    public RouteInterface setHandler(RequestHandlerInterface handler);
+    public RouteInterface setHandler(Class<?> handler);
 
     public Matcher matcher(String path);
 

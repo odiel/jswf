@@ -61,7 +61,7 @@ public class Framework {
 
     public void run() throws Exception {
         if (runner == null) {
-            throw new RunnerNotProvidedException("A Http instance must be provided in order to start the execution.");
+            throw new RunnerNotProvidedException("A Runner instance must be provided in order to start the execution.");
         }
 
         if (firstComponent == null) {

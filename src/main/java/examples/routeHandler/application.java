@@ -1,7 +1,7 @@
 package examples.routeHandler;
 
 import jswf.framework.Framework;
-import jswf.commons.runners.Http;
+import jswf.commons.runners.JettyServer;
 import jswf.commons.components.http.LogRequestComponent;
 import jswf.commons.components.http.RouteHandlerComponent;
 
@@ -13,12 +13,12 @@ public class application {
 
     public static void main(String args[]) {
         RouteHandlerComponent routeHandler = new RouteHandlerComponent();
-        routeHandler.addGet("index", "/", new IndexHandler());
-        routeHandler.addPost("json-content", "/json", new JsonContentHandler());
-        routeHandler.addAny("any", "/methods", new AnyMethodHandler());
+        routeHandler.addGet("index", "/", IndexHandler.class);
+        routeHandler.addPost("json-content", "/json", JsonContentHandler.class);
+        routeHandler.addAny("any", "/methods", AnyMethodHandler.class);
         //routeHandler.addGet("pepe", "/pepe/{whatever:(kuka)+}/{(something)}/", new IndexHandler());
 
-        Http runner = new Http();
+        JettyServer runner = new JettyServer();
 
         Framework framework = new Framework();
         framework

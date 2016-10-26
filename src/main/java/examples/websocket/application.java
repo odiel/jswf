@@ -1,36 +1,31 @@
-package examples.fileUploader;
+package examples.websocket;
 
-import jswf.commons.components.http.DummyExceptionRendererComponent;
-import jswf.commons.runners.JettyServer;
-import jswf.framework.Framework;
-import jswf.commons.components.http.RouteHandlerComponent;
 import jswf.commons.components.http.LogRequestComponent;
 import jswf.commons.components.http.StaticFilesServerComponent;
-
-import examples.fileUploader.handlers.UploadHandler;
+import jswf.commons.components.ws.WebSocketComponent;
+import jswf.commons.runners.JettyServer;
+import jswf.framework.Framework;
 
 public class application {
 
     public static void main(String args[]) {
-        RouteHandlerComponent routeHandler = new RouteHandlerComponent();
-        routeHandler.addGet("upload", "/upload", UploadHandler.class);
-
-        JettyServer runner = new JettyServer();
-        runner.setPort(8080);
-
         StaticFilesServerComponent staticFilesServerComponent = new StaticFilesServerComponent();
         staticFilesServerComponent
                 .setBasePath(System.getProperty("user.dir"))
-                .addPath("/src/main/java/examples/fileUploader/public", "/{(.*)*}")
+                .addPath("/src/main/java/examples/websocket/public", "/{(.*)*}")
         ;
+
+        WebSocketComponent websocketComponent = new WebSocketComponent();
+        websocketComponent.addRoute("/echo", "ws_echo", MySocket.class);
+
+        JettyServer runner = new JettyServer();
 
         Framework framework = new Framework();
         framework
                 .setRunner(runner)
                 .addComponent(new LogRequestComponent())
+                .addComponent(websocketComponent)
                 .addComponent(staticFilesServerComponent)
-                .addComponent(routeHandler)
-                .addComponent(new DummyExceptionRendererComponent())
         ;
 
         try {

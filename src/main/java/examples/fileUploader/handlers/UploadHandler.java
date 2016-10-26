@@ -4,7 +4,7 @@ import jswf.commons.components.http.routeHandlerComponent.Route;
 import jswf.commons.components.http.routeHandlerComponent.Response;
 import jswf.commons.components.http.routeHandlerComponent.Request;
 import jswf.framework.Environment;
-import jswf.commons.components.http.routeHandlerComponent.RequestHandlerInterface;
+import jswf.commons.components.generic.RequestHandlerInterface;
 
 import java.io.IOException;
 

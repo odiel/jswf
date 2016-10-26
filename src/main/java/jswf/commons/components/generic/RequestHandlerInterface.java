@@ -1,4 +1,4 @@
-package jswf.commons.components.http.routeHandlerComponent;
+package jswf.commons.components.generic;
 
 import jswf.framework.Environment;
 

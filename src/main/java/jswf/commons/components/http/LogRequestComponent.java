@@ -9,6 +9,8 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
+
 public class LogRequestComponent extends AbstractComponent {
 
     private static final Logger logger = LoggerFactory.getLogger("LogRequestComponent");
@@ -19,7 +21,14 @@ public class LogRequestComponent extends AbstractComponent {
 
         long initialTimestamp = System.currentTimeMillis();
 
-        System.out.println(initialTimestamp + " | -> " + request.getRequestURI() + " | " + request.getMethod());
+        String protocol = "";
+
+        try {
+            URL url = new URL(request.getRequestURL().toString());
+            protocol = url.getProtocol();
+        } catch (Exception e) {}
+
+        System.out.println(initialTimestamp + " | -> " + request.getRequestURI() + " | " + protocol.toUpperCase() + " | " + request.getMethod());
 
         next(environment);
 
